@@ -1,0 +1,60 @@
+# schema for prisma and underlying db
+# Our user data
+type User {
+  id: ID! @id
+  name: String!
+  email: String! @unique
+  password: String!
+  companyName: String
+  address: String
+  state: String
+  country: String
+  phoneNo: String
+  # activity: [activity]
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+  cart: [CartItem!]!
+  resetToken: String
+  resetTokenExpiry: String
+  permissions: [Permission] @scalarList(strategy: RELATION)
+}
+# type data for Item or Products
+type Item {
+  id: ID! @id
+  title: String!
+  description: String!
+  vendor: String
+  category: String
+  image: String
+  largeImage: String
+  price: Int!
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+  user: User!
+}
+
+# type data for Cart
+type CartItem {
+  id: ID! @id
+  quantity: Int! @default(value: 1)
+  item: Item
+  user: User!
+}
+
+# type data for User Activity
+# type Activity {
+#   id: User!
+#   user: User!
+#   item: Item
+#   cart: CartItem!
+
+# }
+# Our managed permissions
+enum Permission {
+  USER
+  ADMIN_SUPER
+  ADMIN_CREATE
+  ADMIN_DELETE
+  ADMIN_UPDATE
+  PERMISSION_UPDATE
+}

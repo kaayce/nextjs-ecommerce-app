@@ -1,0 +1,79 @@
+# import * from './generated/prisma.graphql'
+
+type Query {
+  items(
+    where: ItemWhereInput
+    orderBy: ItemOrderByInput
+    skip: Int
+    first: Int
+  ): [Item]!
+  item(where: ItemWhereUniqueInput!): Item
+  itemsConnection(where: ItemWhereInput): ItemConnection!
+  currentUser: User
+  users: [User]!
+}
+
+type Mutation {
+  createItem(
+    title: String
+    description: String
+    category: String
+    vendor: String
+    price: Int
+    image: String
+    largeImage: String
+  ): Item!
+  updateItem(
+    id: ID!
+    title: String
+    description: String
+    category: String
+    vendor: String
+    price: Int
+    image: String
+    largeImage: String
+  ): Item!
+  deleteItem(id: ID!): Item
+  signUpUser(name: String!, email: String!, password: String!): User!
+  signInUser(email: String!, password: String!): User!
+  signOutUser: SuccessMessage
+  updateUser(
+    id: ID!
+    name: String
+    email: String
+    companyName: String
+    address: String
+    state: String
+    phoneNo: String
+    country: String
+  ): User!
+  requestToken(email: String!): SuccessMessage
+  resetUserPassword(
+    resetToken: String!
+    password: String!
+    confirmPassword: String!
+  ): User!
+  updatePermissions(permissions: [Permission], userId: ID!): User
+  addToCart(id: ID!): CartItem
+  removeFromCart(id: ID!): CartItem
+}
+
+type SuccessMessage {
+  message: String
+}
+
+type User {
+  id: ID!
+  name: String!
+  email: String!
+  companyName: String
+  address: String
+  state: String
+  country: String
+  phoneNo: String
+  # activity: [activity]
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  permissions: [Permission!]!
+  cart: [CartItem!]!
+}
